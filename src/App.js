@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import NumberInput from './NumberInput'
 import './App.css';
-import { withAuthenticator } from 'aws-amplify-react'
-import Amplify, { Auth } from 'aws-amplify';
-import aws_exports from './aws-exports';
-Amplify.configure(aws_exports);
-
 class App extends Component {
+  constructor() {
+    super()
+    this.handleChange = this.handleChange.bind(this)
+    this.state = {
+
+      result : 0,
+    }
+    this.num1 = 0
+    this.num2 = 0
+  }
+  handleChange(e, num) {
+    if (num === "number1") 
+      {this.num1 = e.target.value}
+    else {
+      this.num2 = e.target.value
+    }  
+    console.log(this.num1)
+    this.setState({result: parseInt(this.num1) + parseInt(this.num2)})
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <NumberInput num={this.num} id="number1" onHandleChange={this.handleChange} /> <br />
+        <NumberInput num={this.num} id="number2" onHandleChange={this.handleChange} /> <br />
+        <div>{this.state.result}</div>
       </div>
     );
   }
 }
-
-export default withAuthenticator(App, true);
+export default App
